@@ -28,6 +28,7 @@
     "@balena/lint": "^5.4.2",
     "@types/jest": "^27.4.1",
     "@types/node-fetch": "^2.6.2",
+    "@types/parse-link-header": "^2.0.3",
     "husky": "^4.2.5",
     "jest": "^27.5.1",
     "lint-staged": "^11.0.0",
@@ -41,6 +42,8 @@
   },
   "dependencies": {
     "minimist": "^1.2.6",
-    "node-fetch": "^2.6.7"
-  }
+    "node-fetch": "^2.6.7",
+    "parse-link-header": "^2.0.0"
+  },
+  "packageManager": "yarn@4.5.0+sha512.837566d24eec14ec0f5f1411adb544e892b3454255e61fdef8fd05f3429480102806bac7446bc9daff3896b01ae4b62d00096c7e989f1596f2af10b927532f39"
 }

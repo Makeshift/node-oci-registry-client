@@ -28,6 +28,7 @@ import { Parse_WWW_Authenticate } from './www-authenticate';
 import * as e from './errors';
 import { Readable } from 'stream';
 import { BadDigestError, TooManyRedirectsError, UploadError } from './errors';
+import * as parseLinkHeader from 'parse-link-header';
 
 /*
  * Copyright 2017 Joyent, Inc.
@@ -615,16 +616,35 @@ export class RegistryClientV2 {
 		return [200, 401].includes(res.status);
 	}
 
-	// TODO: pagination of some kind
 	async listTags(): Promise<TagList> {
 		await this.login();
-		const res = await this._api.request({
-			method: 'GET',
-			path: `/v2/${encodeURI(this.repo.remoteName)}/tags/list`,
-			headers: this._headers,
-			redirect: 'follow',
-		});
-		return await res.dockerJson();
+		let path: string | undefined = `/v2/${encodeURI(
+			this.repo.remoteName,
+		)}/tags/list`;
+		const tags: Array<Promise<string[]>> = [];
+		let name: Promise<string> | undefined;
+		do {
+			const res = await this._api.request({
+				method: 'GET',
+				path,
+				headers: this._headers,
+				redirect: 'follow',
+			});
+
+			const links = parseLinkHeader(res.headers.get('link'));
+			path = links?.next?.url;
+
+			const json = res.dockerJson();
+			tags.push(json.then((j) => j.tags));
+			if (!name) {
+				name = json.then((j) => j.name);
+			}
+		} while (path);
+
+		return {
+			name: await name.then((n) => n ?? this.repo.remoteName),
+			tags: await Promise.all(tags).then((t) => t.flat()),
+		};
 	}
 
 	/*
