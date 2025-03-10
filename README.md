@@ -1,3 +1,9 @@
+# Fork of [node-oci-registry-client](https://github.com/product-os/node-oci-registry-client) with tag pagination support
+
+I wasn't sure if the PR I opened would be merged and I needed this package immediately.
+
+This fork is released [on npm](https://www.npmjs.com/package/@makeshifter/node-oci-registry-client) as `@makeshifter/oci-registry-client`.
+
 # node-oci-registry-client
 
 OCI Registry API V2 client.

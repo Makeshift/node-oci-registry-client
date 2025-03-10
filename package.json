@@ -1,6 +1,6 @@
 {
-  "name": "oci-registry-client",
-  "version": "0.2.0",
+  "name": "@makeshifter/oci-registry-client",
+  "version": "0.3.0",
   "description": "Node client for OCI compatible registries",
   "homepage": "https://github.com/product-os/node-oci-registry-client#readme",
   "main": "build/index.js",
